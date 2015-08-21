@@ -1,0 +1,338 @@
+#include<stdio.h>
+#include<conio.h>
+#include<graphics.h>
+#include<dos.h>
+void draw(float,float);
+void dijkstra(float s,float e,float v1[20],float d1[20],float p1[20],float a1[20][20],float n);
+void path();
+void initial();
+int i,j,k,count=0;
+float  sum=0,w=0,s,wn,v[20],td=0,e,n,w1[20],j1[20],arr[20],arr1[20],e1,d2,y1;
+float var,a[20][20],d[20],p[20],n1,c,c1,w2;
+void main()
+{
+int gd=DETECT,gm;
+ clrscr();
+printf("enter no of nodes");
+scanf("%f",&n);
+for(i=0;i<n;i++)
+{
+for(j=0;j<n;j++)
+{
+a[i][j]=32767;
+}
+}
+for(i=0;i<n;i++)
+{
+for(j=0;j<n;j++)
+{
+printf("press 0 if no edge between %d and %d",i,j );
+scanf("%d",&k );
+if(k==0)
+{
+printf("no edge\n");
+}
+else if(k>0)
+{
+printf("enter weight");
+scanf("%f",&a[i][j]);
+if(a[i][j]<0)
+{
+printf("please enter positive weight");
+scanf("%f",&a[i][j]);
+}
+}
+}
+}
+printf("Enter source and destination for finding the shortet path between two nodes\n ");
+scanf("%f %f",&s,&e);
+clrscr();
+initgraph(&gd,&gm,"c:\\tc\\bgi");
+setcolor(WHITE);
+if(n==3)
+{
+circle(20,100,12);
+outtextxy(18,99,"0");
+circle(85,50,12);
+outtextxy(83,49,"1");
+circle(150,100,12);
+outtextxy(148,99,"2");
+}
+else if(n==2)
+{
+circle(20,100,12);
+outtextxy(18,99,"0");
+circle(85,50,12);
+outtextxy(83,49,"1");
+}
+else if(n==4)
+{
+circle(20,100,12);
+outtextxy(18,99,"0");
+circle(85,50,12);
+outtextxy(83,49,"1");
+circle(150,100,12);
+outtextxy(148,99,"2");
+circle(85,150,12);
+outtextxy(83,149,"3");
+}
+else if(n==1)
+{
+circle(20,100,12);
+outtextxy(18,99,"0");
+}
+else if(n==5)
+{
+circle(20,100,12);
+outtextxy(18,99,"0");
+circle(85,50,12);
+outtextxy(83,49,"1");
+circle(150,100,12);
+outtextxy(148,99,"2");
+circle(85,150,12);
+outtextxy(83,149,"3");
+circle(320,100,12);
+outtextxy(318,99,"4");
+}
+else if(n==6)
+{
+circle(20,100,12);
+outtextxy(18,99,"0");
+circle(85,50,12);
+outtextxy(83,49,"1");
+circle(150,100,12);
+outtextxy(148,99,"2");
+circle(85,150,12);
+outtextxy(83,149,"3");
+circle(320,100,12);
+outtextxy(318,99,"4");
+circle(385,50,12);
+outtextxy(383,49,"5");
+}
+else if(n==7)
+{
+circle(20,100,12);
+outtextxy(18,99,"0");
+circle(85,50,12);
+outtextxy(83,49,"1");
+circle(150,100,12);
+outtextxy(148,99,"2");
+circle(85,150,12);
+outtextxy(83,149,"3");
+circle(320,100,12);
+outtextxy(318,99,"4");
+circle(385,50,12);
+outtextxy(383,49,"5");
+circle(450,100,12);
+outtextxy(448,99,"6");
+}
+else if(n==8)
+{
+circle(20,100,12);
+outtextxy(18,99,"0");
+circle(85,50,12);
+outtextxy(83,49,"1");
+circle(150,100,12);
+outtextxy(148,99,"2");
+circle(85,150,12);
+outtextxy(83,149,"3");
+circle(320,100,12);
+outtextxy(318,99,"4");
+circle(385,50,12);
+outtextxy(383,49,"5");
+circle(450,100,12);
+outtextxy(448,99,"6");
+circle(385,150,12);
+outtextxy(383,149,"7");
+}
+w1[0]=20;
+w1[1]=85;
+w1[2]=150;
+w1[3]=85;
+w1[4]=320;
+w1[5]=385;
+w1[6]=450;
+w1[7]=385;
+j1[0]=100;
+j1[1]=50;
+j1[2]=100;
+j1[3]=150;
+j1[4]=100;
+j1[5]=50;
+j1[6]=100;
+j1[7]=150;
+initial();
+if(s>=e&&s!=5&&e!=4)
+{
+printf("NO PATH DEFINED");
+}
+else
+{
+setcolor(GREEN);
+for(i=0;i<n;i++)
+{
+v[i]=32767;
+d[i]=32767;
+p[i]=0;
+}
+w=s;
+d[s]=0;
+v[s]=s;
+td=0;
+dijkstra(s,e,v,d,p,a,n);
+path();
+c=w1[e];
+c1=j1[e];
+path();
+w=e;
+setcolor(GREEN);
+count=0;
+}
+getch();
+}
+void dijkstra(float s,float e,float v1[20],float d1[20],float p1[20],float
+a1[20][20],float n)
+{
+while((p1[e])==0)
+{
+for(i=0;i<n;i++)
+{
+if((a1[w][i]+td)<d1[i]&&i!=w&&a1[w][i]!=32767)
+{
+d1[i]=a1[w][i]+td;
+d2=d1[i];
+v1[i]=w;
+}
+}
+sum=32767;
+for(i=0;i<n;i++)
+{
+if(d1[i]<sum&&i!=s&&p1[i]!=1)
+{
+sum=d1[i];
+wn=i;
+}
+}
+p1[wn]=1;
+td=d1[wn];
+w=wn;
+}
+}
+void draw(float w,float v1)
+{
+float s,x,y;
+s=(j1[v1]-j1[w])/(w1[v1]-w1[w]);
+if(s<0)
+s=s*-1;
+x=w1[w];
+y=j1[w];
+moveto(x,y);
+if(x==w1[v1])
+{
+while(y!=j1[v1])
+{
+if(y>j1[v1])
+{
+line(x,y,x,y-1);
+delay(10);
+y=y-1;
+}
+else
+{
+line(x,y,x,y+1);
+delay(10);
+y=y+1;
+}
+}
+}
+if(y==j1[v1])
+{
+while(x!=w1[v1])
+{
+if(x>w1[v1])
+{
+line(x,y,x-1,y);
+delay(10);
+x=x-1;
+}
+else
+{
+line(x,y,x+1,y);
+delay(10);
+x=x+1;
+}
+}
+}
+if(x<w1[v1]&&y<j1[v1])
+{
+while(x!=w1[v1])
+{
+line(x,y,x+1,y+s);
+delay(10);
+x=x+1;
+y=y+s;
+}
+}
+if(x>w1[v1]&&y>j1[v1])
+{
+while(x!=w1[v1])
+{
+line(x,y,x-1,y-s);
+delay(10);
+x=x-1;
+y=y-s;
+i=i+1;
+}
+}
+if(x>w1[v1]&&y<j1[v1])
+{
+while(x!=w1[v1])
+{
+line(x,y,x-1,y+s);
+delay(10);
+x=x-1;
+y=y+s;
+i=i+1;
+}
+}
+if(x<w1[v1]&&y>j1[v1])
+{
+while(x!=w1[v1])
+{
+line(x,y,x+1,y-s);
+delay(10);
+x=x+1;
+y=y-s;
+i=i+1;
+}
+}
+}
+void path()
+{
+while(w!=s)
+{
+if(count==0)
+{
+draw(w,v[w]);
+w=v[w];
+}
+else
+{
+draw(w,arr[w]);
+w=arr[w];
+}
+}
+}
+void initial()
+{
+for(i=0;i<n;i++)
+{
+for(j=0;j<n;j++)
+{
+if(a[i][j]>=1&&a[i][j]<=100)
+{
+line(w1[i],j1[i],w1[j],j1[j]);
+}
+}
+}
+}
