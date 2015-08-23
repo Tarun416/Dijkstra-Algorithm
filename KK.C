@@ -34,7 +34,7 @@ void main()
             }
             else if(k>0)
             {
-                printf("enter weight");
+                printf("enter weight!");
                 scanf("%f",&a[i][j]);
                 if(a[i][j]<0)
                 {
